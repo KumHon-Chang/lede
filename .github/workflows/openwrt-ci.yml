@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
@@ -34,10 +34,20 @@ jobs:
         run: |
           docker rmi `docker images -q`
           echo "Deleting files, please wait ..."
+          
+          # 2019.12.14根据P3TERX代码修改
+          sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d/*
+          # 2019.12.14根据P3TERX代码修改
+          
           sudo rm -rf \
-            /usr/share/dotnet \
             /etc/mysql \
             /etc/php
+            
+          #2019.12.14根据P3TERX代码修改
+          sudo swapoff /swapfile
+          sudo rm -f /swapfile
+          #2019.12.14根据P3TERX代码修改
+          
           sudo -E apt-get -y purge \
             azure-cli \
             ghc* \
